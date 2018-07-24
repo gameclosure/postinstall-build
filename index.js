@@ -103,6 +103,8 @@ function postinstallBuild () {
       flags.verbosity = 2
     } else if (arg === '--only-as-dependency') {
       flags.onlyAsDependency = true
+    } else if (arg === '--install-all-dependencies') {
+      flags.installAllDependencies = true
     } else if (arg === '--script') {
       // Consume the next argument.
       flags.script = process.argv[++i]
@@ -112,8 +114,6 @@ function postinstallBuild () {
       buildArtifact = arg
     } else if (buildCommand == null) {
       buildCommand = arg
-    } else if (arg === '--install-all-dependencies') {
-      flags.installAllDependencies = true
     }
   }
 
