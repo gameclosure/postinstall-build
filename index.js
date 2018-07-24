@@ -92,7 +92,8 @@ function postinstallBuild () {
   var buildCommand
   var flags = {
     quote: false,
-    verbosity: 1
+    verbosity: 1,
+    installAllDependencies: false
   }
   for (var i = 2; i < process.argv.length; i++) {
     var arg = process.argv[i]
@@ -111,6 +112,8 @@ function postinstallBuild () {
       buildArtifact = arg
     } else if (buildCommand == null) {
       buildCommand = arg
+    } else if (arg === '--install-all-dependencies') {
+      flags.installAllDependencies = true
     }
   }
 
@@ -204,7 +207,7 @@ function postinstallBuild () {
     var packageInfo = require(packageFile)
     var devDependencies = packageInfo.devDependencies || {}
     var buildDependencies = packageInfo.buildDependencies
-    var installArgs = ' --only=dev'
+    var installArgs = flags.installAllDependencies ? ' ' : ' --only=dev'
 
     if (buildDependencies && Array.isArray(buildDependencies)) {
       installArgs = buildDependencies.map(function (name) {
